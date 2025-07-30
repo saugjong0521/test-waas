@@ -1,0 +1,39 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Embedded Wallet Demo</title>
+</head>
+
+<body>
+    <h2>📦 Create Embedded Wallet</h2>
+
+    <input id="email" placeholder="Enter user email" />
+    <button onclick="createWallet()">Create Wallet</button>
+
+    <p id="result"></p>
+
+    <script>
+        async function createWallet() {
+            const email = document.getElementById('email').value;
+            const res = await fetch('http://localhost:3000/create-wallet', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+
+
+            const data = await res.json();
+            const result = document.getElementById('result');
+            if (data.success) {
+                result.innerText = `✅ Wallet Address: ${data.address}`;
+            } else {
+                result.innerText = `❌ Failed: ${data.error}`;
+            }
+        }
+    </script>
+</body>
+
+</html>
